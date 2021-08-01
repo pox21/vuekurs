@@ -247,7 +247,7 @@ export default {
       currentColor: 0,
     }
   },
-  props: ["priceFrom", "priceTo", "categoryId", "color"],
+  props: ["priceFrom", "priceTo", "categoryId", "color", "page"],
   computed: {
     categories() {
       return categories;
@@ -273,12 +273,14 @@ export default {
       this.$emit("update:priceTo", this.currentPriceTo);
       this.$emit("update:categoryId", this.currentCategoryId);
       this.$emit("update:color", this.currentColor);
+      this.$emit("update:page", 1);
     },
     reset() {
       this.$emit("update:priceFrom", 0);
       this.$emit("update:priceTo", 0);
       this.$emit("update:categoryId", 0);
       this.$emit("update:color", 0);
+      this.$emit("update:page", 1);
     },
   },
 };
