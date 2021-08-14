@@ -48,7 +48,6 @@ export default {
   methods: {
     pagination(page) {
       this.$emit("update:page", page);
-      console.log(page, page + 1, page - 1);
     },
     paginateNext(page) {
       page < this.pages ? page++ : page;

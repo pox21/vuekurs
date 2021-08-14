@@ -2,7 +2,12 @@
   <aside class="filter">
     <h2 class="filter__title">Фильтры</h2>
 
-    <form class="filter__form form" action="#" method="get" @submit.prevent="submit">
+    <form
+      class="filter__form form"
+      action="#"
+      method="get"
+      @submit.prevent="submit"
+    >
       <fieldset class="form__block">
         <legend class="form__legend">Цена</legend>
         <label class="form__label form__label--price">

@@ -5,7 +5,7 @@ export default [
     title: "Радионяня Motorola MBP16",
     price: "3690",
     img: "img/radio.jpg",
-    color: "#ffbe15",
+    color: ["#ffbe15", "#73B6EA", "#ff6b00"],
   },
   {
     id: 2,
@@ -13,7 +13,7 @@ export default [
     title: "Ультразвуковая зубная щётка Playbrush Smart Sonic",
     price: "5660",
     img: "img/toothbrush.jpg",
-    color: "#73B6EA",
+    color: ["#73B6EA", "#000", "#8BE000"],
   },
   {
     id: 3,
@@ -21,7 +21,7 @@ export default [
     title: "Смартфон Xiaomi Mi Mix 3 6/128GB",
     price: "21790",
     img: "img/phone.jpg",
-    color: "#73B6EA",
+    color: ["#8BE000", "#939393", "#73B6EA"],
   },
   {
     id: 4,
@@ -29,7 +29,7 @@ export default [
     title: "Электроскейт Razor Cruiser",
     price: "24690",
     img: "img/board.jpg",
-    color: "#ffbe15",
+    color: ["#ffbe15", "#939393"],
   },
   {
     id: 5,
@@ -37,7 +37,7 @@ export default [
     title: "Смартфон Xiaomi Mi A3 4/64GB Android One",
     price: "14960",
     img: "img/phone-2.jpg",
-    color: "#73b6ea",
+    color: ["#8BE000", "#73B6EA"],
   },
   {
     id: 6,
@@ -45,7 +45,7 @@ export default [
     title: "Смартфон Xiaomi Redmi 6/128GB",
     price: "8960",
     img: "img/phone-3.jpg",
-    color: "#ffbe15",
+    color: ["#ffbe15"],
   },
   {
     id: 7,
@@ -53,7 +53,7 @@ export default [
     title: "Электрический дрифт-карт Razor Crazy Cart",
     price: "39900",
     img: "img/bicycle.jpg",
-    color: "#ff6b00",
+    color: ["#939393", "#ff6b00"],
   },
   {
     id: 8,
@@ -61,7 +61,7 @@ export default [
     title: "Гироскутер Razor Hovertrax 2.0",
     price: "34900",
     img: "img/wheels.jpg",
-    color: "#ff6b00",
+    color: ["#ff6b00", "#939393"],
   },
   {
     id: 9,
@@ -69,7 +69,7 @@ export default [
     title: "Детский трюковой самокат Razor Grom",
     price: "4990",
     img: "img/scooter.jpg",
-    color: "#000",
+    color: ["#000", "#ff6b00", "#939393"],
   },
   {
     id: 10,
@@ -77,7 +77,7 @@ export default [
     title: "Thermaltake Toughpower i RGB PLUS 1000W",
     price: "19490",
     img: "img/thermaltake.jpeg",
-    color: "#939393",
+    color: ["#939393"],
   },
   {
     id: 11,
@@ -85,7 +85,7 @@ export default [
     title: "MSI GeForce RTX 3080 Ti GAMING X TRIO",
     price: "159990",
     img: "img/RTX3080Ti.jpeg",
-    color: "#939393",
+    color: ["#939393"],
   },
   {
     id: 12,
@@ -93,7 +93,7 @@ export default [
     title: "накопитель Samsung 970 EVO Plus",
     price: "7890",
     img: "img/samsung970.jpeg",
-    color: "#000",
+    color: ["#000"],
   },
   {
     id: 13,
@@ -101,6 +101,6 @@ export default [
     title: "Игровой монитор Xiaomi Mi Surface Display 34″",
     price: "33990",
     img: "img/XIAOMI.jpeg",
-    color: "#000",
+    color: ["#939393", "#000"],
   },
 ];

@@ -15,9 +15,7 @@
       />
 
       <section class="catalog">
-        <ProductList
-          :products="products"
-        />
+        <ProductList :products="products" />
 
         <BasePagination
           v-model:page="page"
@@ -71,10 +69,13 @@ export default {
       }
 
       if (this.filterColor) {
-        filterProducts = filterProducts.filter(
-          (product) => product.color == this.filterColor
+        filterProducts = filterProducts.filter((product) =>
+          product.color.some(
+            (productColor) => productColor.toLowerCase() === this.filterColor.toLowerCase()
+          )
         );
       }
+
       return filterProducts;
     },
     products() {
