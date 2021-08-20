@@ -1,5 +1,9 @@
 <template>
-  <main class="content container">
+  <main class="content container" v-if="productLoading">Загрузка товара</main>
+  <main class="content container" v-else-if="!productData">
+    Не удалось загрузить товар
+  </main>
+  <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -135,26 +139,14 @@
             </fieldset>
 
             <div class="item__row">
-              <div class="form__counter">
-                <button type="button" aria-label="Убрать один товар">
-                  <svg width="12" height="12" fill="currentColor">
-                    <use xlink:href="#icon-minus"></use>
-                  </svg>
-                </button>
+              <AmountItem v-model:amount-prod="productAmount" />
 
-                <input type="text" v-model.number="productAmount"/>
-
-                <button type="button" aria-label="Добавить один товар">
-                  <svg width="12" height="12" fill="currentColor">
-                    <use xlink:href="#icon-plus"></use>
-                  </svg>
-                </button>
-              </div>
-
-              <button class="button button--primery" type="submit">
+              <button class="button button--primery" type="submit" :disabled="productAddSending">
                 В корзину
               </button>
             </div>
+            <div v-show="productAdded">Товар добавлен в корзину</div>
+            <div v-show="productAddSending">Добавляем товар в корзину</div>
           </form>
         </div>
       </div>
@@ -190,9 +182,9 @@
           <p>
             Wahoo ELEMNT BOLT GPS – это велокомпьютер, который позволяет
             оптимизировать свои велотренировки, сделав их максимально
-            эффективными. Wahoo ELEMNT BOLT GPS синхронизируется с датчиками
-            по ANT+, объединяя полученную с них информацию. Данные отображаются
-            на дисплее, а также сохраняются на смартфоне. При этом на мобильное
+            эффективными. Wahoo ELEMNT BOLT GPS синхронизируется с датчиками по
+            ANT+, объединяя полученную с них информацию. Данные отображаются на
+            дисплее, а также сохраняются на смартфоне. При этом на мобильное
             устройство можно установить как фирменное приложение, так и
             различные приложения сторонних разработчиков. Велокомпьютер точно
             отслеживает местоположение, принимая сигнал с целого комплекса
@@ -205,10 +197,10 @@
           <p>
             Велокомпьютер Wahoo ELEMNT BOLT очень компактный. Размеры устройства
             составляют всего 74,6 x 47,3 x 22,1 мм. что не превышает габариты
-            смартфона. Корпус гаджета выполнен из черного пластика.
-            На обращенной к пользователю стороне расположен дисплей диагональю
-            56 мм. На дисплей выводятся координаты и скорость, а также
-            полученная со смартфона и синхронизированных датчиков информация:
+            смартфона. Корпус гаджета выполнен из черного пластика. На
+            обращенной к пользователю стороне расположен дисплей диагональю 56
+            мм. На дисплей выводятся координаты и скорость, а также полученная
+            со смартфона и синхронизированных датчиков информация:
             интенсивность, скорость вращения педалей, пульс и т.д. (датчики не
             входят в комплект поставки). Корпус велокомпьютера имеет степень
             защиты от влаги IPX7. Это означает, что устройство не боится пыли, а
@@ -222,32 +214,72 @@
 </template>
 
 <script>
-import products from "@/data/products";
-import categories from "@/data/categories";
 import goToPage from "@/helpers/goToPage";
 import numberFormat from "@/helpers/numberFormat";
+import axios from "axios";
+import { API_BASE_URL } from "@/config";
+import AmountItem from "@/components/AmountItem.vue";
+import { mapActions } from "vuex";
+
 export default {
+  components: { AmountItem },
   data() {
     return {
       productAmount: 1,
+      productData: null,
+
+      productLoading: false,
+      productLoadingFailed: false,
+
+      productAdded: false,
+      productAddSending: false,
     };
   },
   computed: {
     product() {
-      return products.find(product => product.id === +this.$route.params.id);
+      return this.productData
+        ? { ...this.productData, img: this.productData.image.file.url }
+        : {};
     },
     category() {
-      return categories.find(category => category.id === this.product.categoryId);
+      return this.productData ? this.productData.category : [];
     },
     numberFormat() {
       return numberFormat(this.product.price);
     },
   },
   methods: {
+    ...mapActions(["addProductToCart"]),
     goToPage,
     addToCart() {
-      this.$store.commit('addProductToCart', { productId: this.product.id, amount: this.productAmount });
+      this.productAdded = false;
+      this.productAddSending = true;
+
+      this.addProductToCart({
+        productId: this.product.id,
+        amount: this.productAmount,
+      }).then(() => {
+        this.productAdded = true;
+      this.productAddSending = false;
+      });
+    },
+    loadProduct() {
+      this.productLoading = true;
+      this.productLoadingFailed = false;
+      axios
+        .get(API_BASE_URL + `/api/products/${+this.$route.params.id}`)
+        .then((response) => (this.productData = response.data))
+        .catch(() => (this.productLoadingFailed = true))
+        .then(() => (this.productLoading = false));
     },
   },
-}
+  watch: {
+    "$route.params.id": {
+      handler() {
+        this.loadProduct();
+      },
+      immediate: true,
+    },
+  }
+};
 </script>

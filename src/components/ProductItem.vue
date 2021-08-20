@@ -15,20 +15,20 @@
 
     <ul class="colors colors--black">
       <li
-        v-for="productColor of product.color"
-        :key="productColor"
+        v-for="productColor of product.colors"
+        :key="productColor.id"
         class="colors__item"
       >
         <label class="colors__label">
           <input
             class="colors__radio sr-only"
             type="radio"
-            :value="productColor"
+            :value="productColor.id"
             v-model="color"
           />
           <span
             class="colors__value"
-            :style="{ backgroundColor: productColor }"
+            :style="{ backgroundColor: productColor.code }"
           >
           </span>
         </label>
@@ -43,7 +43,7 @@ import numberFormat from "@/helpers/numberFormat";
 export default {
   data() {
     return {
-      color: "#8BE000",
+      color: null,
     }
   },
   methods: {
