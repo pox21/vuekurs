@@ -127,17 +127,14 @@ const store = createStore({
       console.log(context.state.userAccesKey);
       console.log(productId);
       return axios
-        .delete(
-          API_BASE_URL + "/api/baskets/products",
-          {
+        .delete(API_BASE_URL + "/api/baskets/products", {
+          params: {
+            userAccessKey: context.state.userAccesKey,
+          },
+          data: {
             productId,
           },
-          {
-            params: {
-              userAccessKey: context.state.userAccesKey,
-            },
-          }
-        )
+        })
         .then((response) => {
           console.log("das");
           context.commit("deletCartProduct", productId);
