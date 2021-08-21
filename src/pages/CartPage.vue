@@ -11,7 +11,12 @@
       </ul>
 
       <h1 class="content__title">Корзина</h1>
-      <span class="content__info"> 3 товара </span>
+      <span class="content__info">
+        {{
+          $store.state.cartProducts.reduce((res, item) => item.amount + res, 0)
+        }}
+        товара
+      </span>
     </div>
     <section class="cart">
       <form class="cart__form form" action="#" method="POST">

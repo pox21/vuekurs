@@ -19,8 +19,8 @@ const store = createStore({
       }
     },
     deletCartProduct(state, productId) {
-      state.cartProducts = state.cartProducts.filter(
-        (item) => item.productId !== productId
+      state.cartProducts = state.cartProductsData.filter(
+        (item) => item.product.id !== productId
       );
     },
     updateUserAccessKey(state, accessKey) {
@@ -101,7 +101,7 @@ const store = createStore({
     updateCartProductAmount(context, { productId, amount }) {
       context.commit("updateCartProductAmount", { productId, amount });
       if (amount < 1) {
-        return
+        return;
       }
       return axios
         .put(
@@ -121,6 +121,27 @@ const store = createStore({
         })
         .catch(() => {
           context.commit("syncCartProducts");
+        });
+    },
+    deleteProduct(context, productId) {
+      console.log(context.state.userAccesKey);
+      console.log(productId);
+      return axios
+        .delete(
+          API_BASE_URL + "/api/baskets/products",
+          {
+            productId,
+          },
+          {
+            params: {
+              userAccessKey: context.state.userAccesKey,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("das");
+          context.commit("deletCartProduct", productId);
+          context.commit("updateCartProductsData", response.data.items);
         });
     },
   },

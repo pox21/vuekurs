@@ -13,23 +13,7 @@
     </h3>
     <span class="product__code"> Артикул: {{ item.product.id }} </span>
 
-    <AmountItem class="product__counter" v-model:amount-prod="amount"/>
-    <!-- <div class="product__counter form__counter">
-      <button type="button" aria-label="Убрать один товар">
-        <svg width="10" height="10" fill="currentColor">
-          <use xlink:href="#icon-minus"></use>
-        </svg>
-      </button>
-
-      <input type="text" v-model.number="amount" name="count" />
-
-      <button type="button" aria-label="Добавить один товар">
-        <svg width="10" height="10" fill="currentColor">
-          <use xlink:href="#icon-plus"></use>
-        </svg>
-      </button>
-    </div> -->
-
+    <AmountItem class="product__counter" v-model:amount-prod="amount" />
     <b class="product__price">
       {{ numberFormat(item.amount * item.product.price) }} ₽
     </b>
@@ -49,7 +33,7 @@
 
 <script>
 import numberFormat from "@/helpers/numberFormat";
-import { mapMutations } from "vuex";
+import { mapActions } from "vuex";
 import AmountItem from "@/components/AmountItem.vue";
 
 export default {
@@ -58,7 +42,10 @@ export default {
     numberFormat(price) {
       return numberFormat(price);
     },
-    ...mapMutations({ deletProduct: "deletCartProduct" }),
+    ...mapActions(["deleteProduct"]),
+    deletProduct(productId) {
+      this.deleteProduct(productId);
+    },
   },
   props: ["item"],
   computed: {
