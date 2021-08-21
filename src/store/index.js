@@ -19,8 +19,11 @@ const store = createStore({
       }
     },
     deletCartProduct(state, productId) {
-      state.cartProducts = state.cartProductsData.filter(
+      state.cartProductsData = state.cartProductsData.filter(
         (item) => item.product.id !== productId
+      );
+      state.cartProducts = state.cartProducts.filter(
+        (item) => item.productId !== productId
       );
     },
     updateUserAccessKey(state, accessKey) {
@@ -124,8 +127,6 @@ const store = createStore({
         });
     },
     deleteProduct(context, productId) {
-      console.log(context.state.userAccesKey);
-      console.log(productId);
       return axios
         .delete(API_BASE_URL + "/api/baskets/products", {
           params: {
@@ -136,7 +137,6 @@ const store = createStore({
           },
         })
         .then((response) => {
-          console.log("das");
           context.commit("deletCartProduct", productId);
           context.commit("updateCartProductsData", response.data.items);
         });
