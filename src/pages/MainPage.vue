@@ -3,6 +3,11 @@
     <div class="content__top content__top--catalog">
       <h1 class="content__title">Каталог</h1>
       <span class="content__info"> {{ countProducts }} товара </span>
+      <p v-if="productsLoading">Загрзука товаров...</p>
+      <div v-if="productsLoadingFailed">
+        <span>Произошла ошибка при загрузке товаров :( </span>
+        <button type="button" @click.prevent="loadProducts">Ещё раз</button>
+      </div>
     </div>
 
     <div class="content__catalog">
@@ -15,11 +20,6 @@
       />
 
       <section class="catalog">
-        <p v-if="productsLoading">Загрзука товаров...</p>
-        <div v-if="productsLoadingFailed">
-          <span>Произошла ошибка при загрузке товаров :( </span>
-          <button type="button" @click.prevent="loadProducts">Ещё раз</button>
-        </div>
         <ProductList :products="products" />
 
         <BasePagination
@@ -89,8 +89,8 @@ export default {
             },
           })
           .then((response) => (this.productsData = response.data))
-          .catch(() => this.productsLoadingFailed = true)
-          .then(() => this.productsLoading = false);
+          .catch(() => (this.productsLoadingFailed = true))
+          .then(() => (this.productsLoading = false));
       }, 100);
     },
   },

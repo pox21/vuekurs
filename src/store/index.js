@@ -7,8 +7,16 @@ const store = createStore({
     cartProducts: [],
     userAccesKey: null,
     cartProductsData: [],
+    orderInfo: null,
   },
   mutations: {
+    updateOrderInfo(state, orderInfo) {
+      state.orderInfo = orderInfo;
+    },
+    resetCart(state) {
+      state.cartProducts = [];
+      state.cartProductsData = [];
+    },
     updateCartProductAmount(state, { productId, amount }) {
       const item = state.cartProducts.find(
         (item) => item.productId === productId
@@ -64,6 +72,17 @@ const store = createStore({
     },
   },
   actions: {
+    loadOrderInfo(context, orderId) {
+      return axios
+        .get(API_BASE_URL + "/api/orders/" + orderId, {
+          params: {
+            userAccessKey: context.state.userAccesKey,
+          },
+        })
+        .then((response) => {
+          context.commit("updateOrderInfo", response.data);
+        });
+    },
     loadCart(context) {
       return axios
         .get(API_BASE_URL + "/api/baskets", {

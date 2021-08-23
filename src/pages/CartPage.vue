@@ -3,7 +3,9 @@
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="index.html"> Каталог </a>
+          <router-link class="breadcrumbs__link" :to="{ name: 'main' }">
+            Каталог 
+          </router-link>
         </li>
         <li class="breadcrumbs__item">
           <a class="breadcrumbs__link"> Корзина </a>
@@ -11,9 +13,10 @@
       </ul>
 
       <h1 class="content__title">Корзина</h1>
-      <span class="content__info">
+      <span v-if="!$store.state.cartProductsData.length" class="content__info"> Корзина пуста </span>
+      <span v-else class="content__info">
         {{
-          $store.state.cartProducts.reduce((res, item) => item.amount + res, 0)
+          $store.state.cartProductsData.reduce((res, item) => item.quantity + res, 0)
         }}
         товара
       </span>
@@ -30,7 +33,7 @@
           </ul>
         </div>
 
-        <div class="cart__block">
+        <div class="cart__block" v-if="$store.state.cartProductsData.length">
           <p class="cart__desc">
             Мы&nbsp;посчитаем стоимость доставки на&nbsp;следующем этапе
           </p>
@@ -38,9 +41,15 @@
             Итого: <span>{{ numberFormat(totalPrice) }} ₽</span>
           </p>
 
-          <button class="cart__button button button--primery" type="submit">
+          <router-link
+            tag="button"
+            :to="{ name: 'order' }"
+            class="cart__button button button--primery"
+            type="submit"
+            
+          >
             Оформить заказ
-          </button>
+          </router-link>
         </div>
       </form>
     </section>
